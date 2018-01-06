@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <meta charset="UTF-8">
+    <meta content="telephone=no" name="format-detection">
+    <title>贪吃蛇年终盘点</title>
+    
+    <!-- build:css -->
+<link rel="stylesheet" href="css/iSlider.min.css?v=6" />
+    <link rel="stylesheet" href="css/base.css?v=6.10" />
+    <!-- <link rel="stylesheet" href="css/common.css?v=6.10" /> -->
+    <link rel="stylesheet" media="all and (orientation:portrait)" href="css/portrait.css" />
+    <link rel="stylesheet" media="all and (orientation:landscape)" href="css/landscape.css" />
+<!-- endbuild -->
+    <script>
+        (function(doc, win) {
+            var docEl = doc.getElementsByTagName('html')[0],
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientHeight = docEl.offsetHeight,
+                        clientWidth = docEl.offsetWidth,
+                        fontSize;
+                    if (!clientHeight) return;
+                    if (clientHeight > clientWidth) {
+                        fontSize = 20 * (clientWidth / 375);
+                    } else {
+                        fontSize = 20 * (clientWidth / 667);
+                    }
+                    docEl.style.fontSize = fontSize + 'px';
+                };
+            if (!doc.addEventListener) return;
+            recalc();
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+</head>
+
+<body>
+    <div id="root" v-cloak>
+        <div id="main"></div>
+        <div class="share-icon island" :class="{'shared': resData.stat_info.share_state}" @touchstart="shareMy2017"></div>
+        <img class="ms-icon" :class="{'rotate':isRotate}" :src="playStatus" @touchstart="toggleMusic">
+        <div class="data-plat">
+            <div class="content">
+                <div class="page page-1">
+                    <img src="img/logo@2x.png" alt="" class="snack-logo" />
+                    <div class="bd">
+                        <img src="img/page1_top@2x.png" alt="" class="hd-banner" />
+                        <div class="user-wrap">
+                            <div class="user-mes">
+                                <img class="user-tx" :src="resData.stat_info.avatar" />
+                                <span class="user-name">{{resData.stat_info.nickname}}</span>
+                            </div>
+                            <div class="user-history">
+                                <p>转眼间，2017悄然过去。</p>
+                                <p>请打开专属你的</p>
+                                <p>2017贪吃蛇大事记</p>
+                                <p>将一起走过的闪光瞬间珍藏。</p>
+                            </div>
+                            <p class="end-time island">数据统计截止至12月25日</p>
+                        </div>
+
+                    </div>
+                    <div class="ft isvert">
+                        <a class="show-download download" @touchstart="download">查看我的贪吃蛇2017</a>
+                    </div>
+                    <i class="next animated infinite bounce"></i>
+                    <div class="code-img island"></div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="page page-2">
+                    <img src="img/logo@2x.png" alt="" class="snack-logo" />
+                    <img src="img/label_1@2x.png" alt="" class="label-img" />
+                    <div class="bd">
+                        <div class="his-line">
+                            <div class="his-step step-1">
+                                <div class="tit step-1-1"><span class="big-txt">{{resData.stat_info.register_time | formatDate}}</span></div>
+                                <div class="tip step-1-2">你来到了贪吃蛇大作战</div>
+                            </div>
+                            <div class="his-step step-2">
+                                <div class="tip step-2-1">不知不觉已经过去了</div>
+                                <div class="tit step-2-2"><span class="big-txt">{{durTime}}天</span></div>
+                            </div>
+                            <div class="his-step step-3">
+                                <div class="tip step-3-1">时光荏苒</div>
+                                <div class="tip step-3-2">一路走来，感谢有你</div>
+                            </div>
+                        </div>
+                        <div class="bg-btm">
+                            <img src="img/snack_red.png" alt="" class="pos-img snack-red" />
+                            <img src="img/clock.png" alt="" class="pos-img clock" />
+                            <span class="pos-img minute"></span>
+                        </div>
+                        <div class="code-img"></div>
+                    </div>
+                    <div class="ft isvert">
+                        <a href="#" class="show-download download" @touchstart="download">查看我的贪吃蛇2017</a>
+                    </div>
+                    <i class="next animated infinite bounce island"></i>
+                </div>
+            </div>
+            <div class="content">
+                <div class="page page-3">
+                    <img src="img/logo@2x.png" alt="" class="snack-logo" />
+                    <img src="img/label_2@2x.png" alt="" class="label-img" />
+                    <div class="bd">
+
+                        <div class="his-line">
+                            <div class="his-tip his-step-1">从到来的第一天</div>
+                            <div class="his-tip his-step-2">你就从未停止前进</div>
+                            <div class="his-step step-1">
+                                <div class="tit step-1-1" v-html="pvpCountTxt[0]"></div>
+                                <div class="tip step-1-2" v-html="pvpCountTxt[1]"></div>
+                            </div>
+                            <div class="his-step step-2">
+                                <div class="tip step-2-1">在无尽和限时模式</div>
+                                <div class="tip step-2-2">累计长度达</div>
+                                <div class="tit step-2-3"><span class="big-txt">{{resData.stat_info.total_len}}</span>千米</div>
+                            </div>
+                            <div class="his-step step-3">
+                                <div class="tip step-3-1">{{lengthTxt[0]}}</div>
+                                <div class="tit step-3-2" v-html="lengthTxt[1]"></div>
+                            </div>
+                        </div>
+                        <div class="bg-btm">
+                            <img src="img/ball@2x.png" alt="" class="pos-img ball isvert" />
+                            <div class="earth pos-img">
+                                <img src="img/cloud@2x.png" alt="" />
+                                <img src="img/earth@2x.png" class="rotate" alt="" />
+                            </div>
+                            <img src="img/yellow_sn@2x.png" alt="" class="pos-img yellow-sn isvert" />
+                            <img src="img/land_sn2x.png" alt="" class="pos-img yellow-sn island">
+                        </div>
+                        <div class="code-img"></div>
+                    </div>
+                    <div class="ft isvert">
+                        <a href="#" class="show-download download" @touchstart="download">查看我的贪吃蛇2017</a>
+                    </div>
+                    <i class="next animated infinite bounce island"></i>
+                </div>
+            </div>
+            <div class="content">
+                <div class="page page-4">
+                    <img src="img/logo@2x.png" alt="" class="snack-logo" />
+                    <img src="img/label_3@2x.png" alt="" class="label-img" />
+                    <div class="bd">
+
+                        <div class="his-line">
+                            <div class="his-tip his-step-1">汗水换来了无上的荣耀</div>
+                            <div class="his-step step-1">
+                                <div class="tit step-1-1"><span class="big-txt">{{resData.stat_info.honor_title}}</span></div>
+                                <div class="tip step-1-2">是你攀登的巅峰</div>
+                                <div class="tip step-1-3">{{horonTxt[0]}}</div>
+                                <div class="tip step-1-4">{{horonTxt[1]}}</div>
+                            </div>
+                            <div class="his-step step-2">
+                                <template v-if="resData.stat_info.praise > 5">
+                                    <div class="tip step-2-1">赛后收获的<img src="img/zan.png" alt="" class="user-like" />累计达</div>
+                                    <div class="tit step-2-2"><span class="big-txt">{{resData.stat_info.praise}}</span>个</div>
+                                    <div class="tip step-2-3">你风骚的走位让人不得不服</div>
+                                </template>
+                                <template v-else>
+                                    <div class="tip step-2-1">新一年，努力在战场上奋斗，</div>
+                                    <div class="tip step-2-2">成为别人口中的神队友吧！</div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="bg-btm">
+                            <img src="img/star@2x.png" alt="" class="pos-img star-1">
+                            <img src="img/team_cup@2x.png" alt="" class="pos-img cup">
+                            <img src="img/snackKing@2x.png" alt="" class="pos-img snack-king isvert" />
+                            <img src="img/land_gold@2x.png" alt="" class="pos-img snack-king island" />
+                            <img src="img/star@2x.png" alt="" class="pos-img star-2">
+                        </div>
+                        <div class="code-img"></div>
+                    </div>
+                    <div class="ft isvert">
+                        <a href="#" class="show-download download" @touchstart="download">查看我的贪吃蛇2017</a>
+                    </div>
+                    <i class="next animated infinite bounce island"></i>
+                </div>
+            </div>
+            <div class="content">
+                <div class="page page-5">
+                    <img src="img/logo@2x.png" alt="" class="snack-logo" />
+                    <img src="img/label_4@2x.png" alt="" class="label-img" />
+                    <div class="bd">
+                        <div class="his-line">
+                            <div class="his-tip his-step-1">一年过去了</div>
+                            <div class="his-step step-1">
+                                <template v-if="resData.stat_info.friend_num > 0">
+                                    <div class="tip step-1-1">你在这里已经收获了</div>
+                                    <div class="tit step-1-2"><span class="big-txt">{{resData.stat_info.friend_num}}</span>个小伙伴</div>
+                                </template>
+                                <template v-else>
+                                    <div class="tip step-1-1">新的一年，不妨叫上身边的伙伴</div>
+                                    <div class="tit step-1-2">来贪吃蛇收获快乐吧！</div>
+                                </template>
+                            </div>
+                            <div class="his-step step-2">
+                                <template v-if="resData.stat_info.first_friend.uid">
+                                    <div class="tit step-2-1"><span class="his-user"><img :src="resData.stat_info.first_friend.avatar" alt="" /></span>{{resData.stat_info.first_friend.nickname}}</div>
+                                    <div class="tip step-2-2">是你第一个关注的蛇友</div>
+                                    <div class="tip step-2-3">TA那时的飒爽英姿还记得吗？</div>
+                                </template>
+
+                                <template v-else>
+                                    <div class="tit step-2-1"><span class="his-user"><img src="img/no_follow.png" alt="" /></span>还没有关注的蛇友哦</div>
+                                    <div class="tip step-2-2">轻轻一键的关注 </div>
+                                    <div class="tip step-2-3">说不定就是奇妙缘分的开始哦！</div>
+                                </template>
+                            </div>
+                            <div class="his-step step-3">
+                                <template v-if="resData.stat_info.first_follower.uid">
+                                    <div class="tit step-3-1"><span class="his-user"><img :src="resData.stat_info.first_follower.avatar" alt="" /></span>{{resData.stat_info.first_follower.nickname}}</div>
+                                    <div class="tip step-3-2">是你的第一个粉丝</div>
+                                    <div class="tip step-3-3">那些默默关注你的目光</div>
+                                    <div class="tip step-3-4">都得到回应了吗？</div>
+                                </template>
+                                <template v-else>
+                                    <div class="tit step-3-1"><span class="his-user"><img src="img/no_follow.png" alt="" /></span>还没有粉丝关注你哦</div>
+                                    <div class="tip step-3-2">多上战场，展示你的技术</div>
+                                    <div class="tip step-3-3">让更多人看到 </div>
+                                    <div class="tip step-3-4">成为你忠实的粉丝吧</div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="bg-btm">
+                            <img src="img/qinwa04@2x.png" alt="" class="pos-img isvert friendShip" />
+                            <img src="img/land_sn2@2x.png" alt="" class="pos-img island friendShip" />
+                            <img src="img/heart@2x.png" alt="" class="pos-img heart" />
+                        </div>
+                        <div class="code-img"></div>
+                    </div>
+                    <div class="ft isvert">
+                        <a href="#" class="show-download download" @touchstart="download">查看我的贪吃蛇2017</a>
+                    </div>
+                    <i class="next animated infinite bounce island"></i>
+                </div>
+            </div>
+            <div class="content">
+                <div class="page page-6">
+                    <div class="final-page">
+                        <div class="final-hd">
+                            <img src="img/snack_logo@3x.png" alt="" class="final-snack" />
+                            <div class="tit">我们在2018等你</div>
+                        </div>
+                        <div class="final-bd">
+                            <div class="final-txt">
+                                <p>2017已去，</p>
+                                <p> 愿你在2018，</p>
+                            </div>
+                            <div class="final-txt">
+                                <p>依旧热血奋战， </p>
+                                <p>青春幸福。</p>
+                            </div>
+                            <div class="final-space">
+                                <p>我会在这儿， </p>
+                                <p>一直守护你。</p>
+                            </div>
+                        </div>
+                        <div class="final-ft">
+                            <a href="#" class="btn isvert-inline download" @touchstart="download">查看我的2017</a>
+                            <p class="isvert">打开&nbsp;&nbsp;&lceil;贪吃蛇大作战&rfloor;&nbsp;&nbsp;即可查看</p>
+                            <a href="#" class="btn island-inline download" @touchstart="shareMy2017">分享我的2017</a>
+                            <p class="island" v-if="!resData.stat_info.share_state">分享成功即可获得5<img src="img/apple.png" alt="" class="apple-img" />奖励</p>
+                        </div>
+                    </div>
+                    <img src="img/yel_sn@2x.png" alt="" class="yel-sn pos-img" />
+                    <img src="img/blue_sn@2x.png" alt="" class="blu-sn pos-img" />
+                    <img src="img/red_sn@2x.png" alt="" class="red-sn pos-img" />
+                    <img src="img/green_sn@2x.png" alt="" class="gre-sn pos-img" />
+                    <div class="code-img island"></div>
+                </div>
+            </div>
+        </div>
+        <audio id="bgm" preload="auto" loop="loop" ref="BGM">
+            <source src="music.mp3" type="audio/mpeg"/>
+        </audio>
+        <div class="mask" v-show="isShowMask">
+            <div class="mask-box">
+                <div class="mask-content success-mask-content" v-if="success">
+                    <p class="success-tit">分享成功</p>
+                    <p class="success-txt">5<img class="apple-img" src="img/apple.png" alt="" />已通过邮件发送！</p>
+                </div>
+                <div class="mask-content failed-mask-content" v-else>
+                    <p class="success-txt" id="failed-msg">{{failTxt}}</p>
+                </div>
+                <span class="mask-btn sure-btn" @touchend="closeMask">确定</span>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- build:js -->
+<script src="./js/iSlider.js"></script>
+    <script src="./js/iSlider.animate.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/qrcode.js"></script>
+    <script src="./js/index.js?v=376425555"></script>
+<!-- endbuild -->
+</body>
+
+</html>
